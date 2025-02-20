@@ -5,11 +5,12 @@ from django.utils import timezone
 class UserDetails(models.Model):
 
     user_id = models.CharField(max_length=30, unique=True, primary_key = True)
-    user_name = models.CharField(max_length=40, default="", unique=True)
+    user_name = models.CharField(max_length=40, default="")
     user_type = models.CharField(max_length=30,default="")
     user_mail = models.EmailField(default="",unique=True, null=False)
-    time_slot_from = models.IntegerField(default="")
-    time_slot_to = models.IntegerField(default="")
+    slot_date = models.DateField(default="")
+    time_slot_from = models.IntegerField(default=0)
+    time_slot_to = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now,blank=True)
 
     class Meta:

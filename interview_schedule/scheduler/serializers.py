@@ -4,11 +4,12 @@ import logging
 from rest_framework import serializers
 from .models import UserDetails
 
+
 class UserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserDetails
-        fields = ['user_id','user_name','user_type','user_mail','time_slot_from','time_slot_to']
+        fields = ['user_id','user_name','user_type','user_mail','slot_date','time_slot_from','time_slot_to']
 
         # validating the user id
         def validate_user_id(self, value):
@@ -42,6 +43,13 @@ class UserDetailsSerializer(serializers.ModelSerializer):
             else:
                 return value
         
+        # validating the user id
+        def validate_slot_date(self, value):
+            if not value.strip():
+                raise serializers.ValidationError("Available date cannot be empty.")
+            
+            return value
+        
         # validating the 'time_slot_from' based on office starting
         def validate_time_slot_from(self, value):
             if not value.strip():
@@ -54,7 +62,7 @@ class UserDetailsSerializer(serializers.ModelSerializer):
         
         # validating 'time_slot_to' to ensure it is > 'time_slot_from'
         def validate_time_slot_to(self, value):
-
+            
             if not value.strip():
                 raise serializers.ValidationError("Time slot to cannot be empty.")
             
